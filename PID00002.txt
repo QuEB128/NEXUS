@@ -1,1 +1,90 @@
-This file was automatically created and uploaded to GitHub.
+**HOSPITAL PATIENT FILE**
+
+**Patient Information:**
+---------------------------------------------
+- **Full Name:** Sarah Thompson
+- **Date of Birth:** 8th July 1992
+- **Age:** 32
+- **Gender:** Female
+- **Blood Type:** A-
+- **Marital Status:** Single
+- **Address:** 456 Oak Avenue, Springfield
+- **Phone Number:** (555) 789-1234
+- **Emergency Contact:** Mark Thompson (Brother) - (555) 234-5678
+- **Insurance Provider:** MedShield Health
+- **Policy Number:** MS-98765432
+
+**Medical History:**
+---------------------------------------------
+- **Known Allergies:** Shellfish, Ibuprofen
+- **Chronic Conditions:** Asthma
+- **Past Surgeries:** None
+- **Current Medications:**
+  - Albuterol Inhaler (As needed for asthma attacks)
+  - Montelukast 10mg (Once daily)
+- **Family Medical History:**
+  - Father: Asthma, High Cholesterol
+  - Mother: Rheumatoid Arthritis
+  - Sibling: None reported
+
+**Admission Details:**
+---------------------------------------------
+- **Date of Admission:** 5th April 2025
+- **Time of Admission:** 3:15 PM
+- **Admitting Physician:** Dr. James Robinson
+- **Reason for Admission:** Severe asthma exacerbation with difficulty breathing
+- **Ward/Room Number:** General Ward - Room 12
+- **Admitting Diagnosis:** Acute Asthma Attack
+
+**Clinical Assessment:**
+---------------------------------------------
+- **Vital Signs:**
+  - Blood Pressure: 120/75 mmHg
+  - Heart Rate: 95 bpm
+  - Respiratory Rate: 28 breaths/min
+  - Temperature: 99.1°F
+  - Oxygen Saturation: 88% (on room air)
+- **Physical Examination:**
+  - Audible wheezing on auscultation
+  - Intercostal muscle retraction
+  - Patient is in mild distress, unable to complete full sentences
+- **Initial Laboratory Tests:**
+  - Arterial Blood Gas: pH 7.35, pCO2 45 mmHg, pO2 60 mmHg
+  - CBC: Normal
+  - Chest X-ray: No signs of pneumonia or pneumothorax
+
+**Treatment Plan:**
+---------------------------------------------
+- **Immediate Interventions:**
+  - Oxygen therapy via nasal cannula at 4 L/min
+  - Nebulized albuterol/ipratropium bromide every 20 minutes
+  - IV Methylprednisolone 40mg
+  - Continuous monitoring of respiratory status
+- **Further Investigations:**
+  - Pulmonary function tests scheduled post-recovery
+  - Allergy testing referral for long-term management
+
+**Progress Notes:**
+---------------------------------------------
+- **6th April 2025 - 8:30 AM**: Patient reports improved breathing, oxygen saturation at 95%. Nebulization reduced to every 4 hours.
+- **7th April 2025 - 10:00 AM**: Patient stable, wheezing significantly reduced. Preparing for discharge planning.
+
+**Discharge Summary (To be completed upon discharge):**
+---------------------------------------------
+- **Discharge Date:** 8th April 2025
+- **Discharge Diagnosis:** Acute Asthma Exacerbation, Resolved
+- **Medications Prescribed:**
+  - Albuterol Inhaler (As needed)
+  - Montelukast 10mg (Once daily)
+  - Prednisone 20mg (Tapering dose for 5 days)
+- **Follow-up Appointments:**
+  - 15th April 2025 - Pulmonology Consultation
+  - 22nd April 2025 - Allergy Testing
+- **Patient Instructions:**
+  - Continue prescribed medications as directed
+  - Avoid known triggers (dust, strong odors, cold air)
+  - Use peak flow meter daily to monitor lung function
+  - Seek medical attention if wheezing worsens or difficulty breathing returns
+
+**Physician’s Signature:** Dr. James Robinson  
+**Date:** 8th April 2025
