@@ -8,6 +8,28 @@ from queue import Queue, Empty
 import pyttsx3
 from google import genai
 from google.genai import types
+from docx import Document
+from datetime import datetime
+
+
+def save_report_to_word(report_text):
+    doc = Document()
+    doc.add_heading("Consultation Report", 0)
+    
+    for line in report_text.split('\n'):
+        if line.strip():  # Skip empty lines
+            doc.add_paragraph(line.strip())
+
+    # Get the script's directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Build the filename with full path
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = f"Consultation_Report_{timestamp}.docx"
+    full_path = os.path.join(script_dir, filename)
+    
+    doc.save(full_path)
+    print(f"\n📄 Report saved as: {full_path}")
 
 def speech_to_text_continuous():
     audio_queue = Queue()
@@ -43,8 +65,8 @@ def speech_to_text_continuous():
             except sr.UnknownValueError:
                 pass  # Skip unrecognized audio
             except sr.RequestError as e:
-                print(f"API error: {e}")
-
+                print("Skipping a segment due to network error.")
+                continue
     # Start recording and processing threads
     record_thread = threading.Thread(target=record_audio, daemon=True)
     process_thread = threading.Thread(target=process_audio, daemon=True)
@@ -86,24 +108,12 @@ def read_text(text):
     engine.say(text)
     engine.runAndWait()
 
-medical_prompt = """
-    you are an AI assistive robot that processes unorganized transcribed consultation sessions.
-    your task is to:    
-    1. create present the conversation in a dialogue form
-        eg: 
-        doctor: how are you doing today?
-        [patient name]: I am having a headache
-        ...
-    
-    2. Generate a report which would contain the diaogue form of the consultation record without leaving out a word.
-    (the report should include the date, time, doctor and patient name)
 
-    3. acter representing the conversation in a dialogue, analyze the transcribed consultaion and patient's 
-    complaints, together with the patien's medica record and vital signs. and then generate some possible diagnosis,
-    test's to be conducted to confirm the diagnosis, their inferences and finally suggest some type of medications 
-    and treatment plans with reasons.
-    
-"""
+script_dir = os.path.dirname(os.path.abspath(__file__))
+prompt_path = os.path.join(script_dir, "medical_prompt.txt")
+
+with open(prompt_path, "r", encoding="utf-8") as file:
+    medical_prompt = file.read()
 
 
 def generate(user_input, chat_history):
@@ -149,6 +159,33 @@ chat_history = []
 result = speech_to_text_continuous()
 
 response = generate(result, chat_history)
+cleaned_response = response.replace("*", "")
+
+save_report_to_word(cleaned_response)
 
 chat_history.append({"role": "user", "text": result})
 chat_history.append({"role": "model", "text": response})
+
+
+'''
+
+Recording... Press ESC to stop
+Partial: hello good morning
+Partial: how are you doing today
+Partial: I'm fine just
+Partial: a bit of pain at my spine
+Partial: have you done anything physical or filling down
+Partial: no I have an experiencing this pin for the past 2 weeks and it keeps getting worse with a slight headache
+Partial: ok have you taken any painkiller for medicine
+Partial: yes I did but my mum told
+Partial: me I was overdose
+Partial: ok which bank will I do
+Partial: which painkiller did you take
+Partial: 15 pills of paracetamol ped
+Partial: okay that's too much
+Partial: have you engaged in any
+Partial: physical activity
+Partial: accident
+Partial: no not that I can remember
+Partial: ok let me
+Partial: review your'''
