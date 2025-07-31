@@ -1,0 +1,48 @@
+For Windows Setup
+
+1. Install Python 3.9+
+Download from: https://www.python.org/downloads/windows/
+During installation, check: ✅ Add Python to PATH
+
+
+2. Download or create, in the same directory as the desktop_version.py code:
+-requirements.txt
+-medical_prompt.txt
+
+Then open your terminal and run:
+pip install -r requirements.txt
+
+
+
+
+For macOS Setup
+1. Install Python 3.9+
+Install Homebrew if needed:
+bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Then:
+bash
+brew install python
+
+2. Install PortAudio (for PyAudio)
+bash
+brew install portaudio
+
+3. Install pip packages
+bash
+pip3 install google-generativeai speechrecognition pyttsx3 python-docx keyboard pyaudio
+
+
+
+
+For Linux (Ubuntu/Debian) Setup
+1. Install Python & dependencies
+bash
+sudo apt update
+sudo apt install python3 python3-pip portaudio19-dev python3-pyaudio
+
+2. Install pip packages
+bash
+pip3 install google-generativeai speechrecognition pyttsx3 python-docx keyboard pyaudio
+You may need to run the script with sudo for the keyboard module to work.
