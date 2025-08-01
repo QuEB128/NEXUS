@@ -13,6 +13,8 @@
 #define GRAPH_HEIGHT 20
 
 #define ONE_WIRE_BUS 2
+#define GREEN_LED 6
+#define RED_LED 7
 
 MAX30105 particleSensor;
 OneWire oneWire(ONE_WIRE_BUS);
@@ -50,6 +52,10 @@ void setup() {
   particleSensor.setup();
   particleSensor.setPulseAmplitudeRed(0x0A); // turn Red LED to low
   particleSensor.setPulseAmplitudeIR(0x1F);  // turn IR LED to medium
+
+  // LED Indicators
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
 }
 
 void loop() {
@@ -82,6 +88,19 @@ void loop() {
   Serial.print(pulse);
   Serial.print(",SpO2:");
   Serial.println(spo2);
+
+  // Health Check Logic
+  bool isTempHealthy = (temperature >= 36.0 && temperature <= 37.5);
+  bool isPulseHealthy = (pulse >= 60 && pulse <= 100);
+  bool isSpO2Healthy = (spo2 >= 95);
+
+  if (isTempHealthy && isPulseHealthy && isSpO2Healthy) {
+    digitalWrite(GREEN_LED, HIGH);
+    digitalWrite(RED_LED, LOW);
+  } else {
+    digitalWrite(GREEN_LED, LOW);
+    digitalWrite(RED_LED, HIGH);
+  }
 
   delay(100); // match Raspberry Pi read timing
 }
