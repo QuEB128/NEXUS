@@ -73,6 +73,7 @@ Hardware:
 -RFID Scanner
 
 
+
 Hardware code Installation (Document session and AI report generation)
 
 NB: The Main_document_session.py code can only be run on the nexus hardware for full feature experience since it makes use of GPIO pins, RFID card scanner and sensors to function perfectly. Nevertheless, a sample desktop version has been made available but you would not be able to experience the full capability of the Nexus device since your PC does not have GPIO pins for the sensors and RFID card scanner to be connected.
@@ -149,4 +150,4 @@ demovideo.com
 
 How to Get Involved
 We welcome doctors, hospitals, developers, and healthcare advocates to partner with us in piloting Robot Nexus in your facilities.
-Email us at robotnexus.health@gmail.com to get started.
+Email us at robotnexus111@gmail.com to get started.
