@@ -10,7 +10,7 @@ During installation, check: ✅ Add Python to PATH
 -medical_prompt.txt
 
 Then open your terminal and run:
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 After setting up, run:
 python desktop_version.py
