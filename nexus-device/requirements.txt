@@ -1,4 +1,5 @@
 google-generativeai
+google.genai
 speechrecognition
 pyttsx3
 python-docx
