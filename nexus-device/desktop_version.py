@@ -40,8 +40,9 @@ def speech_to_text_continuous():
     def record_audio():
         with sr.Microphone() as source:
             recognizer.adjust_for_ambient_noise(source)
-            print("Recording... Press ESC to stop")
-            
+            print("Recording... Press ENTER to stop")
+            read_text("recording in progress...please begin consultation session")            
+
             while not stop_event.is_set():
                 try:
                     audio = recognizer.listen(source, timeout=0.1, phrase_time_limit=10)
@@ -78,7 +79,7 @@ def speech_to_text_continuous():
     #keyboard.wait('esc')
     stop_event.set()
     print("\nStopping...")
-    
+    read_text("Session ended. Generating report...")
     # Wait for threads to finish
     record_thread.join(timeout=2.0)
     process_thread.join(timeout=2.0)
@@ -161,6 +162,7 @@ result = speech_to_text_continuous()
 
 response = generate(result, chat_history)
 cleaned_response = response.replace("*", "")
+read_text("Report has been generated. Thank you")
 
 save_report_to_word(cleaned_response)
 
