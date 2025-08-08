@@ -5,4 +5,4 @@ pyttsx3
 python-docx
 keyboard
 pyaudio
-pip install python-dotenv
+python-dotenv
