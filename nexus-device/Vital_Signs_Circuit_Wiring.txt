@@ -38,3 +38,11 @@ LEDs (with 220Ω Resistors)
 | Red LED   | Arduino D7 (via 220Ω resistor) | GND                   |
 
 
+
+Wiring Diagram:
+
+Arduino Pin	| Raspberry Pi | Pin	Notes                |
+----------- | ------------ | -------------------------|
+TX (1)	     | RX (GPIO 15)	| Arduino sends data to Pi.|
+RX (0)	     | TX (GPIO 14)	| Pi sends data to Arduino.|
+GND         |	GND	         | Common ground.           |
