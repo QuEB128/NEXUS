@@ -1,0 +1,17 @@
+To assemble the Nexus device, you first have to 3d print the case using the Nexus.stl file.
+
+After that, create your circuit by using the Circuit_wiring.txt file as a guide.
+
+Codes installation.
+===================
+1. Arduino uno
+-After creating the circuit, Upload the check_vitals.ino fine from the check_vitals folder to the arduino board
+
+2. Raspberry pi (3+)
+- Dounload and setup your raspberry pi OS using the video in the link below:
+  https://youtu.be/y45hsd2AOpw?si=YCaYtsPbynZM6x71
+- Open your Terminal and run these commands
+  sudo apt update
+  sudo apt upgrade
+- Dounload the nexus-device directory and extract it to your desktop
+- 
