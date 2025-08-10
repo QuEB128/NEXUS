@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
 import time
 import base64
 import os
@@ -10,11 +11,89 @@ from google import genai
 from google.genai import types
 from docx import Document
 from datetime import datetime
+import requests
+import json
 
 # GPIO Setup
 button_pin = 17  # Change to your GPIO pin
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+ID = None
+
+def read_rfid():
+    """
+    Function to read patient ID from an RFID card using MFRC522 reader.
+    """
+    global ID
+    reader = SimpleMFRC522()
+    
+    try:
+        read_text("Hold an RFID card near the reader...")
+        # Read the RFID card (this will wait until a card is detected)
+        id, text = reader.read()
+        ID = str(id)  # Convert the ID to string and store it
+        read_text("ID scanned successfully")
+        return ID
+    except Exception as e:
+        read_text("Error reading RFID card: {e}")
+        return None
+        
+    finally:
+        GPIO.cleanup()
+
+def upload_report_to_server(report_text, ID):
+    """Uploads the generated report to the Nexus Medical Backend"""
+
+    if not patient_id:
+        print("No patient ID available for upload")
+        return False
+        
+    # API configuration
+    base_url = "https://nexus-medi-backend.onrender.com"
+    endpoint = "/api/v1/reports"
+    patient_id = ID
+    auth_key = "nexusrobogenn0825"
+
+    # Prepare the request
+    url = f"{base_url}{endpoint}"
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': auth_key
+    }
+    payload = {
+        "patient_id": patient_id,
+        "report_summary": report_text,
+        "created_by": "Robot Nexus",
+        "isconfidential": True,
+        "status": "Not Responded"
+    }
+
+    try:
+        print("\nUploading report to server...")
+        response = requests.post(url, headers=headers, data=json.dumps(payload), timeout=10)
+        response.raise_for_status()
+
+        result = response.json()
+        print("\n✅ Report uploaded successfully!")
+        print(f"Report ID: {result['data']['report_id']}")
+        print(f"Status: {result['data']['status']}")
+        return True
+
+    except requests.exceptions.RequestException as e:
+        print("\n❌ Error uploading report:")
+        if hasattr(e, 'response') and e.response:
+            try:
+                error_data = e.response.json()
+                print(f"Status Code: {e.response.status_code}")
+                print(f"Error: {error_data.get('error', 'Unknown error')}")
+            except ValueError:
+                print(f"Status Code: {e.response.status_code}")
+                print(f"Response Text: {e.response.text}")
+        else:
+            print(f"Connection Error: {str(e)}")
+        return False
+
 
 def save_report_to_word(report_text):
     doc = Document()
@@ -158,13 +237,18 @@ with open(prompt_path, "r", encoding="utf-8") as file:
 chat_history = []
 
 try:
-    print("Press and hold the button to start recording...")
+    read_text("Press and release the button to stop recording...")
     
     while True:
         # Wait for button press (LOW)
         if not GPIO.input(button_pin):
+            Patient_ID = read_rfid()
+            if not patient_id:
+                    read_text("Failed to read patient ID. Please try again.")
+                    continue
             stop_event = threading.Event()
-            print("Button pressed - starting recording")
+                        
+            read_text("recording in progress...please begin consultation session")
             
             # Start recording in a separate thread
             recording_thread = threading.Thread(
@@ -181,24 +265,27 @@ try:
             stop_event.set()
             recording_thread.join()
             
-            print("Processing recording...")
+            read_text("Session ended. Generating report...")
+
             
             # Generate response and save report
             if 'result' in globals() and globals()['result']:
                 response = generate(globals()['result'], chat_history)
                 cleaned_response = response.replace("*", "")
                 save_report_to_word(cleaned_response)
+
+                # Upload to server
+                if upload_report_to_server(cleaned_response,ID):
+                    read_text("Report has been successfully uploaded to the patient's records.")
+                else:
+                    read_text("Warning: Could not upload report to server. Local copy has been saved.")
+
                 
                 # Update chat history
                 chat_history.append({"role": "user", "text": globals()['result']})
                 chat_history.append({"role": "model", "text": response})
-                
-                # Optional: Read the response aloud
-                # read_text(cleaned_response)
-            
-            print("\nPress and hold the button to start a new recording...")
 
 except KeyboardInterrupt:
-    print("\nExiting...")
+    read_text("Exiting...")
 finally:
     GPIO.cleanup()
