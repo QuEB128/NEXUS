@@ -226,7 +226,7 @@ cleaned_response = response.replace("*", "")
 
 read_text("Report has been generated. Processing now.")
 
- Save to Word document
+#Save to Word document
 doc_path = save_report_to_word(cleaned_response)
 
 # Upload to server
