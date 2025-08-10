@@ -1,0 +1,48 @@
+MAX30102 (Pulse Sensor Module)
+
+Uses I2C, so it shares lines with the OLED.
+
+ VIN          -> Arduino 3.3V 
+ GND          -> Arduino GND  
+ SDA          -> Arduino A4   
+ SCL          -> Arduino A5   
+
+
+DS18B20 (Temperature Sensor)
+
+Uses OneWire protocol. You'll also need a 4.7kΩ pull-up resistor.
+
+
+ VCC         -> Arduino 5V  
+ GND         -> Arduino GND 
+ DATA        -> Arduino D2  
+
+Place the 4.7kΩ resistor between DATA and VCC (D2 ↔ 5V).
+
+
+SSD1306 OLED Display (I2C version)
+
+Shares I2C lines with MAX30102.
+
+ VCC     -> Arduino 3.3V or 5V 
+ GND     -> Arduino GND        
+ SDA     -> Arduino A4         
+ SCL     -> Arduino A5         
+
+
+LEDs (with 220Ω Resistors)
+
+| LED       | Anode (Long Leg)               | Cathode (Short Leg)   |
+| --------- | ------------------------------ | --------------------- |
+| Green LED | Arduino D6 (via 220Ω resistor) | GND                   |
+| Red LED   | Arduino D7 (via 220Ω resistor) | GND                   |
+
+
+
+Wiring Diagram:
+
+Arduino Pin	| Raspberry Pi  | Pin	Notes                |
+----------- | ------------- | -------------------------|
+TX (1)	    | RX (GPIO 15)	| Arduino sends data to Pi.|
+RX (0)	    | TX (GPIO 14)  | Pi sends data to Arduino.|
+GND         |	GND	          | Common ground.           |
