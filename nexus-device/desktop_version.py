@@ -12,6 +12,9 @@ from docx import Document
 from datetime import datetime
 import requests
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 '''
 Some patient ID's you can try with
@@ -171,7 +174,7 @@ def read_text(text):
 
 def generate(user_input, chat_history):
     client = genai.Client(
-        api_key=("AIzaSyC8ZXhnkI7iJJpYLMKm2zaEtMuuQqOEkXQ"),
+        api_key=os.getenv("GEMINI_API_KEY"),
     )
 
     model = "gemini-2.0-flash"
