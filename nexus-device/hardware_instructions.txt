@@ -13,5 +13,9 @@ Codes installation.
 - Open your Terminal and run these commands
   sudo apt update
   sudo apt upgrade
-- Dounload the nexus-device directory and extract it to your desktop
-- 
+- Download the nexus-device directory and extract it to your desktop
+- Then open your terminal and run:
+  python -m pip install -r requirements.txt
+
+- After setting up, run:
+  python desktop_version.py
