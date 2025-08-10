@@ -1,3 +1,4 @@
+import serial
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import time
@@ -18,6 +19,8 @@ import json
 button_pin = 17  # Change to your GPIO pin
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# Initializing serial connection to Arduino
+arduino_serial = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
 
 ID = None
 
@@ -41,6 +44,21 @@ def read_rfid():
         
     finally:
         GPIO.cleanup()
+
+def read_arduino_vitals():
+    """Reads temperature, pulse, and SpO2 from Arduino over serial."""
+    try:
+        line = arduino_serial.readline().decode('utf-8').strip()
+        if line:
+            data = {}
+            parts = line.split(',')
+            for part in parts:
+                key, value = part.split(':')
+                data[key] = value
+            return data
+    except Exception as e:
+        print(f"Error reading Arduino data: {e}")
+        return None
 
 def upload_report_to_server(report_text, ID):
     """Uploads the generated report to the Nexus Medical Backend"""
@@ -240,6 +258,8 @@ try:
     read_text("Press and release the button to stop recording...")
     
     while True:
+        # Read Arduino vitals
+        vitals = read_arduino_vitals()
         # Wait for button press (LOW)
         if not GPIO.input(button_pin):
             Patient_ID = read_rfid()
@@ -268,11 +288,13 @@ try:
             read_text("Session ended. Generating report...")
 
             
-            # Generate response and save report
+            # Generate report (include vitals if available)
             if 'result' in globals() and globals()['result']:
-                response = generate(globals()['result'], chat_history)
-                cleaned_response = response.replace("*", "")
-                save_report_to_word(cleaned_response)
+                consultation_text = globals()['result']
+                if vitals:
+                    consultation_text += f"\n\nVitals:\n- Temperature: {vitals.get('TEMP')}°C\n- Pulse: {vitals.get('PULSE')} BPM\n- SpO2: {vitals.get('SpO2')}%"
+                
+                response = generate(consultation_text, chat_history)
 
                 # Upload to server
                 if upload_report_to_server(cleaned_response,ID):
