@@ -13,13 +13,23 @@ from datetime import datetime
 import requests
 import json
 
+'''
+Some patient ID's you can try with
+===================================
+1d20792f-fa9f-44a9-9142-a170b67d9e76
+4b08a7d1-429a-4eff-a225-d4a6b08db3be
+66971054-5b6f-4e47-894e-efbdb9210342
+
+'''
+
+ID = "4b08a7d1-429a-4eff-a225-d4a6b08db3be"
 
 def upload_report_to_server(report_text):
     """Uploads the generated report to the Nexus Medical Backend"""
     # API configuration
     base_url = "https://nexus-medi-backend.onrender.com"
     endpoint = "/api/v1/reports"
-    patient_id = "1d20792f-fa9f-44a9-9142-a170b67d9e76"
+    patient_id = ID
     auth_key = "nexusrobogenn0825"
     
     # Prepare the request
@@ -216,8 +226,8 @@ cleaned_response = response.replace("*", "")
 
 read_text("Report has been generated. Processing now.")
 
-# Save to Word document
-#doc_path = save_report_to_word(cleaned_response)
+Save to Word document
+doc_path = save_report_to_word(cleaned_response)
 
 # Upload to server
 if upload_report_to_server(cleaned_response):
